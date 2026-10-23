@@ -1,0 +1,424 @@
+/* SaaS Landing Page Styling - CodeAlpha Cloud Solutions */
+:root {
+  --primary: #0284c7;
+  --primary-dark: #0369a1;
+  --secondary: #06b6d4;
+  --accent: #8b5cf6;
+  --dark-bg: #0f172a;
+  --dark-surface: #1e293b;
+  --text-light: #f8fafc;
+  --text-muted: #94a3b8;
+  --border-color: #334155;
+  --font-main: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: var(--font-main);
+  background: var(--dark-bg);
+  color: var(--text-light);
+  line-height: 1.6;
+  overflow-x: hidden;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+/* Navigation */
+.navbar {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  background: rgba(15, 23, 42, 0.85);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  padding: 16px 32px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.nav-brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 18px;
+  font-weight: 700;
+  letter-spacing: -0.5px;
+}
+
+.brand-icon {
+  width: 36px;
+  height: 36px;
+  border-radius: 8px;
+  background: linear-gradient(135deg, var(--primary), var(--secondary));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 800;
+  color: white;
+  box-shadow: 0 4px 12px rgba(2, 132, 199, 0.4);
+}
+
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  list-style: none;
+}
+
+.nav-links a {
+  font-size: 14px;
+  color: var(--text-muted);
+  transition: color 0.2s;
+}
+
+.nav-links a:hover {
+  color: var(--text-light);
+}
+
+.nav-btn {
+  background: var(--primary);
+  color: white;
+  padding: 8px 18px;
+  border-radius: 8px;
+  font-size: 13.5px;
+  font-weight: 600;
+  transition: all 0.2s;
+}
+
+.nav-btn:hover {
+  background: var(--primary-dark);
+  transform: translateY(-1px);
+}
+
+/* Hero Section */
+.hero {
+  position: relative;
+  padding: 100px 32px 80px;
+  max-width: 1200px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.hero-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(2, 132, 199, 0.12);
+  border: 1px solid rgba(2, 132, 199, 0.3);
+  padding: 6px 14px;
+  border-radius: 20px;
+  color: #38bdf8;
+  font-size: 13px;
+  font-weight: 500;
+  margin-bottom: 24px;
+}
+
+.hero h1 {
+  font-size: clamp(36px, 5vw, 64px);
+  font-weight: 800;
+  letter-spacing: -1.5px;
+  line-height: 1.15;
+  margin-bottom: 20px;
+  background: linear-gradient(to right, #ffffff, #93c5fd, #38bdf8);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.hero p {
+  font-size: clamp(16px, 2vw, 20px);
+  color: var(--text-muted);
+  max-width: 750px;
+  margin: 0 auto 36px;
+}
+
+.hero-actions {
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.btn-primary {
+  background: linear-gradient(135deg, var(--primary), var(--secondary));
+  color: white;
+  padding: 14px 28px;
+  border-radius: 10px;
+  font-weight: 600;
+  font-size: 15px;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  box-shadow: 0 8px 24px rgba(2, 132, 199, 0.35);
+  transition: all 0.2s;
+}
+
+.btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 30px rgba(2, 132, 199, 0.5);
+}
+
+.btn-secondary {
+  background: var(--dark-surface);
+  color: var(--text-light);
+  border: 1px solid var(--border-color);
+  padding: 14px 28px;
+  border-radius: 10px;
+  font-weight: 600;
+  font-size: 15px;
+  transition: all 0.2s;
+}
+
+.btn-secondary:hover {
+  background: #334155;
+  border-color: #475569;
+}
+
+/* Telemetry Stats */
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 20px;
+  max-width: 1100px;
+  margin: 60px auto 0;
+}
+
+.stat-card {
+  background: rgba(30, 41, 59, 0.6);
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  padding: 24px;
+  text-align: left;
+  backdrop-filter: blur(8px);
+}
+
+.stat-number {
+  font-size: 32px;
+  font-weight: 800;
+  color: #38bdf8;
+  margin-bottom: 4px;
+}
+
+.stat-label {
+  font-size: 13px;
+  color: var(--text-muted);
+}
+
+/* Tasks Showcase */
+.section-container {
+  max-width: 1200px;
+  margin: 80px auto;
+  padding: 0 32px;
+}
+
+.section-header {
+  text-align: center;
+  margin-bottom: 48px;
+}
+
+.section-header h2 {
+  font-size: 32px;
+  font-weight: 700;
+  letter-spacing: -0.5px;
+  margin-bottom: 12px;
+}
+
+.section-header p {
+  color: var(--text-muted);
+  font-size: 16px;
+}
+
+.tasks-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 24px;
+}
+
+.task-card {
+  background: var(--dark-surface);
+  border: 1px solid var(--border-color);
+  border-radius: 14px;
+  padding: 24px;
+  position: relative;
+  transition: transform 0.2s, border-color 0.2s;
+}
+
+.task-card:hover {
+  transform: translateY(-4px);
+  border-color: var(--primary);
+}
+
+.task-badge {
+  display: inline-block;
+  font-size: 11px;
+  font-weight: 700;
+  padding: 4px 10px;
+  border-radius: 6px;
+  background: rgba(2, 132, 199, 0.15);
+  color: #38bdf8;
+  margin-bottom: 14px;
+}
+
+.task-card h3 {
+  font-size: 18px;
+  font-weight: 600;
+  margin-bottom: 10px;
+}
+
+.task-card p {
+  font-size: 13.5px;
+  color: var(--text-muted);
+  margin-bottom: 18px;
+}
+
+.task-action-btn {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: #38bdf8;
+  padding: 8px 14px;
+  border-radius: 6px;
+  font-size: 12.5px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+  width: 100%;
+}
+
+.task-action-btn:hover {
+  background: var(--primary);
+  color: white;
+  border-color: var(--primary);
+}
+
+/* Embed Snippet Box */
+.embed-box {
+  background: #020617;
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  padding: 24px;
+  max-width: 900px;
+  margin: 40px auto 0;
+  text-align: left;
+}
+
+.embed-box-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+  font-size: 13px;
+  color: var(--text-muted);
+}
+
+.code-snippet {
+  background: #090d16;
+  border: 1px solid #1e293b;
+  border-radius: 8px;
+  padding: 16px;
+  font-family: Consolas, monospace;
+  font-size: 13px;
+  color: #a5f3fc;
+  overflow-x: auto;
+}
+
+.copy-btn {
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  color: white;
+  padding: 4px 10px;
+  border-radius: 4px;
+  font-size: 11px;
+  cursor: pointer;
+}
+
+/* Pricing Grid */
+.pricing-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 24px;
+  margin-top: 40px;
+}
+
+.pricing-card {
+  background: var(--dark-surface);
+  border: 1px solid var(--border-color);
+  border-radius: 16px;
+  padding: 32px 24px;
+  text-align: left;
+  position: relative;
+}
+
+.pricing-card.featured {
+  border-color: var(--primary);
+  box-shadow: 0 0 30px rgba(2, 132, 199, 0.2);
+}
+
+.pricing-card.featured::before {
+  content: "RECOMMENDED";
+  position: absolute;
+  top: -12px;
+  left: 24px;
+  background: linear-gradient(135deg, var(--primary), var(--secondary));
+  color: white;
+  font-size: 10px;
+  font-weight: 700;
+  padding: 4px 10px;
+  border-radius: 4px;
+}
+
+.price {
+  font-size: 38px;
+  font-weight: 800;
+  margin: 16px 0 8px;
+}
+
+.price span {
+  font-size: 14px;
+  color: var(--text-muted);
+  font-weight: 400;
+}
+
+.pricing-features {
+  list-style: none;
+  margin: 24px 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  font-size: 13.5px;
+  color: var(--text-muted);
+}
+
+.pricing-features li::before {
+  content: "✔";
+  color: #10b981;
+  margin-right: 8px;
+  font-weight: bold;
+}
+
+/* Footer */
+footer {
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  padding: 48px 32px;
+  text-align: center;
+  font-size: 13px;
+  color: var(--text-muted);
+  background: #090d16;
+}
+
+footer a {
+  color: #38bdf8;
+}
+
+@media (max-width: 768px) {
+  .navbar { padding: 16px; }
+  .nav-links { display: none; }
+  .hero { padding: 60px 16px 40px; }
+}

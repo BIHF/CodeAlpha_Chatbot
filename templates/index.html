@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CodeAlpha NexaCloud | Enterprise AI & Cloud Platform</title>
+  <link rel="stylesheet" href="/static/css/landing.css">
+  <link rel="stylesheet" href="/static/css/chatbot.css">
+</head>
+<body>
+
+  <!-- Navigation -->
+  <nav class="navbar">
+    <div class="nav-brand">
+      <div class="brand-icon">CA</div>
+      <span>CodeAlpha NexaCloud</span>
+    </div>
+    <ul class="nav-links">
+      <li><a href="#features">Features</a></li>
+      <li><a href="#tasks">Internship Tasks</a></li>
+      <li><a href="#embed">Embed Widget</a></li>
+      <li><a href="#pricing">Pricing</a></li>
+      <li><a href="/chat">Fullscreen Portal</a></li>
+    </ul>
+    <div style="display:flex; gap:12px; align-items:center;">
+      <a href="/chat" class="nav-btn">Launch Assistant</a>
+      <a href="https://github.com/CodeAlpha" target="_blank" class="btn-secondary" style="padding:8px 14px; font-size:13px;">GitHub</a>
+    </div>
+  </nav>
+
+  <!-- Hero Section -->
+  <header class="hero">
+    <div class="hero-pill">
+      <span>🚀 Task 4: AI Chatbot Production Release</span>
+    </div>
+    <h1>Autonomous Cloud AI Chatbot for Enterprise Websites</h1>
+    <p>
+      An ultra-fast, intelligent conversational agent trained for commercial cloud services and CodeAlpha internship workflows. Powered by TF-IDF vectorization, Cosine Similarity matching, and seamless multi-channel website integration.
+    </p>
+    <div class="hero-actions">
+      <button onclick="window.openCodeAlphaChat('What is task 4 making a chatbot?')" class="btn-primary">
+        <span>💬 Ask AI Chatbot</span>
+      </button>
+      <a href="/chat" class="btn-secondary">
+        <span>🖥️ Open Fullscreen Portal</span>
+      </a>
+    </div>
+
+    <!-- Live Telemetry Stats -->
+    <div class="stats-grid">
+      <div class="stat-card">
+        <div class="stat-number">&lt; 10ms</div>
+        <div class="stat-label">Inference Latency</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number">99.9%</div>
+        <div class="stat-label">Cloud SLA Availability</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number">4 Tasks</div>
+        <div class="stat-label">Internship Knowledge Base</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number">1-Line</div>
+        <div class="stat-label">Website Embed Script</div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Internship Tasks Showcase -->
+  <section id="tasks" class="section-container">
+    <div class="section-header">
+      <h2>CodeAlpha Cloud Computing Internship</h2>
+      <p>Comprehensive curriculum covering real-world cloud engineering challenges.</p>
+    </div>
+    <div class="tasks-grid">
+      <div class="task-card">
+        <span class="task-badge">TASK 1</span>
+        <h3>Data Redundancy Removal</h3>
+        <p>Cryptographic hash-based cloud deduplication system optimizing storage and bandwidth.</p>
+        <button class="task-action-btn" onclick="window.openCodeAlphaChat('Tell me about task 1 data redundancy removal')">Ask Chatbot</button>
+      </div>
+
+      <div class="task-card">
+        <span class="task-badge">TASK 2</span>
+        <h3>Cloud Online Bus Pass</h3>
+        <p>Automated public transit digital pass management with QR authentication and cloud persistence.</p>
+        <button class="task-action-btn" onclick="window.openCodeAlphaChat('Explain task 2 cloud bus pass system')">Ask Chatbot</button>
+      </div>
+
+      <div class="task-card">
+        <span class="task-badge">TASK 3</span>
+        <h3>Secure Cloud File Storage</h3>
+        <p>Enterprise object storage solution leveraging AWS S3 with presigned URLs and access control.</p>
+        <button class="task-action-btn" onclick="window.openCodeAlphaChat('How to implement task 3 cloud file storage?')">Ask Chatbot</button>
+      </div>
+
+      <div class="task-card" style="border-color: #0284c7;">
+        <span class="task-badge" style="background:#0284c7; color:white;">CURRENT TASK 4</span>
+        <h3>AI-Powered Chatbot</h3>
+        <p>Hybrid NLP conversational assistant with commercial website embedding, confidence scoring, and cloud hosting.</p>
+        <button class="task-action-btn" style="background:#0284c7; color:white;" onclick="window.openCodeAlphaChat('What are the deliverables for Task 4 Chatbot?')">View Deliverables</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- 1-Line Embed Box -->
+  <section id="embed" class="section-container">
+    <div class="section-header">
+      <h2>Integrate Into Any Website in Seconds</h2>
+      <p>Drop our lightweight JavaScript snippet before the closing body tag of your website.</p>
+    </div>
+    <div class="embed-box">
+      <div class="embed-box-header">
+        <span>HTML EMBED CODE</span>
+        <button class="copy-btn" onclick="copySnippet()">Copy Snippet</button>
+      </div>
+      <div class="code-snippet" id="snippet-text">
+&lt;script src="https://your-cloud-domain.com/static/js/widget.js" data-api-url="https://your-cloud-domain.com"&gt;&lt;/script&gt;
+      </div>
+    </div>
+  </section>
+
+  <!-- Pricing Section -->
+  <section id="pricing" class="section-container">
+    <div class="section-header">
+      <h2>Enterprise Cloud Plans</h2>
+      <p>Flexible cloud tiers engineered for startups, enterprises, and student developers.</p>
+    </div>
+    <div class="pricing-grid">
+      <div class="pricing-card">
+        <h3>Community & Student</h3>
+        <p>Ideal for CodeAlpha interns and open-source projects.</p>
+        <div class="price">$0 <span>/ month</span></div>
+        <ul class="pricing-features">
+          <li>Self-hosted on AWS or Docker</li>
+          <li>Unlimited retrieval queries</li>
+          <li>Pre-trained NLP Knowledge Base</li>
+          <li>Community support on GitHub</li>
+        </ul>
+        <button class="task-action-btn" onclick="window.openCodeAlphaChat('Tell me about the free community plan')">Get Started</button>
+      </div>
+
+      <div class="pricing-card featured">
+        <h3>Cloud Pro</h3>
+        <p>Production hosting for growing tech businesses.</p>
+        <div class="price">$29 <span>/ month</span></div>
+        <ul class="pricing-features">
+          <li>Fully managed AWS Elastic Beanstalk</li>
+          <li>Sub-10ms response guarantee</li>
+          <li>Automated CSAT analytics</li>
+          <li>Voice Input & Speech synthesis</li>
+          <li>Automated support ticketing</li>
+        </ul>
+        <button class="btn-primary" style="width:100%; justify-content:center;" onclick="window.openCodeAlphaChat('What features are in Cloud Pro plan?')">Upgrade to Pro</button>
+      </div>
+
+      <div class="pricing-card">
+        <h3>Enterprise Scale</h3>
+        <p>Mission-critical AI automation for large organizations.</p>
+        <div class="price">$99 <span>/ month</span></div>
+        <ul class="pricing-features">
+          <li>Hybrid Generative LLM fallback</li>
+          <li>99.99% multi-region Cloud SLA</li>
+          <li>Custom fine-tuned domain intents</li>
+          <li>Dedicated Slack / Teams support</li>
+          <li>HIPAA & GDPR compliance package</li>
+        </ul>
+        <button class="task-action-btn" onclick="window.openCodeAlphaChat('Tell me about Enterprise pricing and SLA')">Contact Sales</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <p>
+      Developed for <strong>CodeAlpha Cloud Computing Internship</strong> | Task 4: AI Chatbot
+    </p>
+    <p style="margin-top:8px;">
+      Repository: <a href="https://github.com/CodeAlpha" target="_blank"><code>CodeAlpha_Chatbot</code></a> | Tagged: <strong>@CodeAlpha</strong>
+    </p>
+  </footer>
+
+  <!-- Include Chatbot Widget -->
+  <script src="/static/js/widget.js"></script>
+
+  <script>
+    function copySnippet() {
+      const text = document.getElementById("snippet-text").innerText.trim();
+      navigator.clipboard.writeText(text).then(() => {
+        alert("Widget embed snippet copied to clipboard!");
+      });
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,546 @@
+{
+  "intents": [
+    {
+      "tag": "greeting",
+      "patterns": [
+        "hello",
+        "hi",
+        "hey",
+        "hey there",
+        "good morning",
+        "good afternoon",
+        "good evening",
+        "hi bot",
+        "hola",
+        "greetings"
+      ],
+      "responses": [
+        "Hello! Welcome to the CodeAlpha AI Assistant. I can help you with Cloud Computing internship tasks, architecture, deployment, and commercial SaaS queries. How can I assist you today?",
+        "Hi there! Ready to explore cloud computing, internship requirements, or chatbot deployment? Ask me anything!"
+      ],
+      "suggestions": [
+        "Internship Tasks",
+        "Task 4 Chatbot Specs",
+        "AWS Cloud Deployment",
+        "Submit Project"
+      ]
+    },
+    {
+      "tag": "bot_identity",
+      "patterns": [
+        "who are you",
+        "what is your name",
+        "are you an ai",
+        "what can you do",
+        "tell me about yourself",
+        "who created you"
+      ],
+      "responses": [
+        "I am the CodeAlpha Cloud AI Chatbot, an enterprise-grade hybrid conversational assistant built for the CodeAlpha Cloud Computing Internship. I feature ultra-fast TF-IDF NLP retrieval, intent classification, cloud architecture guidance, and commercial website integration."
+      ],
+      "suggestions": [
+        "Chatbot Architecture",
+        "Commercial Features",
+        "Embed On Website",
+        "Internship Overview"
+      ]
+    },
+    {
+      "tag": "help_menu",
+      "patterns": [
+        "help",
+        "what can i ask",
+        "options",
+        "menu",
+        "commands",
+        "features",
+        "guide"
+      ],
+      "responses": [
+        "Here are key topics I can help you with:\n- **Internship**: Tasks 1-4, GitHub repositories, submission deadlines, certificates.\n- **Task 4 Chatbot**: Model architecture, TF-IDF vectorizer, training patterns, widget integration.\n- **Cloud & Deployment**: AWS Elastic Beanstalk, Docker containers, Render, Vercel, REST API.\n- **Enterprise Support**: SLA, pricing tiers, ticketing, and live website embedding."
+      ],
+      "suggestions": [
+        "Task 4: Making a Chatbot",
+        "GitHub Requirements",
+        "AWS Deployment Guide",
+        "Raise Support Ticket"
+      ]
+    },
+    {
+      "tag": "about_company",
+      "patterns": [
+        "about codealpha",
+        "who is codealpha",
+        "what does codealpha do",
+        "codealpha company",
+        "codealpha info",
+        "tell me about codealpha"
+      ],
+      "responses": [
+        "CodeAlpha provides practical tech and software internship programs empowering students and professionals to gain hands-on experience in Cloud Computing, AI, Web Development, and Cyber Security with real-world industry tasks."
+      ],
+      "suggestions": [
+        "Cloud Internship Tasks",
+        "Submission Guidelines",
+        "Certificate Criteria"
+      ]
+    },
+    {
+      "tag": "cloud_internship_overview",
+      "patterns": [
+        "cloud computing internship",
+        "internship details",
+        "what is the cloud internship",
+        "internship tasks overview",
+        "codealpha internship overview"
+      ],
+      "responses": [
+        "The CodeAlpha Cloud Computing Internship covers 4 industry-aligned tasks:\n1. **Task 1**: Data Redundancy Removal on Cloud.\n2. **Task 2**: Cloud-based Online Bus Pass System.\n3. **Task 3**: Secure Cloud File Storage.\n4. **Task 4**: Making an AI Chatbot (with commercial website integration & cloud deployment)."
+      ],
+      "suggestions": [
+        "Task 1: Data Redundancy",
+        "Task 2: Bus Pass System",
+        "Task 4: Making a Chatbot",
+        "Submission Guidelines"
+      ]
+    },
+    {
+      "tag": "task_1_data_redundancy",
+      "patterns": [
+        "what is task 1",
+        "task 1",
+        "data redundancy removal",
+        "cloud deduplication",
+        "task 1 details"
+      ],
+      "responses": [
+        "**Task 1: Data Redundancy Removal**: Focuses on designing a cloud-based deduplication system using cryptographic hashing (e.g., SHA-256) to detect duplicate files before storage, optimizing cloud bandwidth and cloud storage costs."
+      ],
+      "suggestions": [
+        "Task 2: Bus Pass System",
+        "Task 4: Making a Chatbot",
+        "GitHub Requirements"
+      ]
+    },
+    {
+      "tag": "task_2_cloud_bus_pass",
+      "patterns": [
+        "what is task 2",
+        "task 2",
+        "cloud bus pass",
+        "online bus pass system",
+        "task 2 details"
+      ],
+      "responses": [
+        "**Task 2: Cloud Bus Pass System**: A web application deployed to cloud infrastructure allowing commuters to apply for, renew, and verify digital bus passes with automated QR verification and cloud database storage."
+      ],
+      "suggestions": [
+        "Task 3: Cloud File Storage",
+        "Task 4: Making a Chatbot",
+        "Submission Guidelines"
+      ]
+    },
+    {
+      "tag": "task_3_cloud_file_storage",
+      "patterns": [
+        "what is task 3",
+        "task 3",
+        "cloud file storage",
+        "file storage system",
+        "s3 storage task"
+      ],
+      "responses": [
+        "**Task 3: Cloud File Storage**: Build a secure cloud object storage solution (leveraging AWS S3 or equivalent) with user authentication, presigned upload URLs, encryption at rest, and file sharing permissions."
+      ],
+      "suggestions": [
+        "Task 4: Making a Chatbot",
+        "AWS Cloud Services",
+        "Submission Guidelines"
+      ]
+    },
+    {
+      "tag": "task_4_chatbot",
+      "patterns": [
+        "what is task 4",
+        "task 4",
+        "making a chatbot",
+        "chatbot task",
+        "task 4 requirements",
+        "cloud based ai chatbot",
+        "chatbot details"
+      ],
+      "responses": [
+        "**Task 4: Making a Chatbot** requirements:\n1. **Model Selection & Architecture**: Retrieval-based (TF-IDF/Cosine Similarity) or Generative AI with sub-50ms instant response latency.\n2. **Training & Functionality**: Predefined patterns for commercial use cases, confidence scoring, context retention, and fallback handling.\n3. **Integration & Deployment**: Embeddable website widget + live SaaS demo + cloud deployment (AWS/Docker/Render).\n4. **Deliverables**: GitHub repo `CodeAlpha_Chatbot`, LinkedIn video demo tagged `@CodeAlpha`, and form submission."
+      ],
+      "suggestions": [
+        "Chatbot Architecture",
+        "Embed On Website",
+        "AWS Deployment Guide",
+        "LinkedIn Post Template"
+      ]
+    },
+    {
+      "tag": "github_requirements",
+      "patterns": [
+        "github",
+        "github repository",
+        "source code",
+        "repository name",
+        "how to name repository",
+        "github repo name",
+        "repo instructions"
+      ],
+      "responses": [
+        "Your GitHub repository must be named **`CodeAlpha_Chatbot`**.\nIt should include:\n- Clean source code (`app.py`, `engine/`, `static/`, `templates/`)\n- Containerization files (`Dockerfile`, `docker-compose.yml`, `Procfile`)\n- Test suite (`pytest`)\n- Comprehensive `README.md` with architecture diagrams and cloud deployment steps."
+      ],
+      "suggestions": [
+        "Task 4: Making a Chatbot",
+        "Submission Guidelines",
+        "Docker Deployment"
+      ]
+    },
+    {
+      "tag": "submission_guidelines",
+      "patterns": [
+        "how to submit",
+        "submission guidelines",
+        "submission form",
+        "where to submit task",
+        "submit project",
+        "submission deadline"
+      ],
+      "responses": [
+        "**Submission Checklist**:\n1. Push all code to your public GitHub repository: `CodeAlpha_Chatbot`.\n2. Record a brief video demo showing the chatbot answering queries, testing suggestions, and operating on the live website.\n3. Post the video on LinkedIn tagging **`@CodeAlpha`** and include your GitHub repository link.\n4. Submit the GitHub URL and LinkedIn post link via the official CodeAlpha submission form."
+      ],
+      "suggestions": [
+        "LinkedIn Post Template",
+        "GitHub Requirements",
+        "Certificate Criteria"
+      ]
+    },
+    {
+      "tag": "linkedin_post",
+      "patterns": [
+        "linkedin",
+        "linkedin post",
+        "how to post on linkedin",
+        "linkedin video demo",
+        "tagging codealpha",
+        "linkedin submission"
+      ],
+      "responses": [
+        "**LinkedIn Submission Guide**:\n- Record a 1-2 min video walk-through demonstrating queries, floating widget, confidence scoring, and cloud deployment.\n- Tag **@CodeAlpha**.\n- Include repository link: `github.com/<your-username>/CodeAlpha_Chatbot`.\n- Use hashtags: `#CodeAlpha #CloudComputing #ArtificialIntelligence #Chatbot #Python #Flask #AWS #Internship`."
+      ],
+      "suggestions": [
+        "Submission Guidelines",
+        "GitHub Requirements",
+        "Task 4: Making a Chatbot"
+      ]
+    },
+    {
+      "tag": "certificate_completion",
+      "patterns": [
+        "certificate",
+        "completion certificate",
+        "when do i get certificate",
+        "letter of recommendation",
+        "lor",
+        "internship completion"
+      ],
+      "responses": [
+        "To earn your CodeAlpha Verified Internship Certificate & Letter of Recommendation (LOR), complete your assigned tasks according to instructions, push the code to GitHub, post the demo on LinkedIn tagged `@CodeAlpha`, and submit before the cycle deadline."
+      ],
+      "suggestions": [
+        "Submission Guidelines",
+        "Cloud Internship Tasks",
+        "About CodeAlpha"
+      ]
+    },
+    {
+      "tag": "cloud_architecture",
+      "patterns": [
+        "architecture",
+        "system architecture",
+        "how does this chatbot work",
+        "model architecture",
+        "retrieval vs generative",
+        "nlp pipeline"
+      ],
+      "responses": [
+        "**Chatbot System Architecture**:\n1. **NLU Pipeline**: Text normalization -> Tokenization -> Porter Stemming -> N-gram extraction (1-3 grams).\n2. **Vector Space Model**: TF-IDF weighting with sublinear frequency scaling.\n3. **Intent Classifier**: Cosine similarity against trained commercial pattern vectors.\n4. **Confidence Evaluator**: High confidence (direct answer), medium (answer + suggestions), low (graceful fallback/LLM).\n5. **Interface Layer**: REST API (`/api/chat`) powering both the SaaS embedded widget and standalone portal."
+      ],
+      "suggestions": [
+        "TF-IDF Explanation",
+        "AWS Cloud Services",
+        "Docker Deployment"
+      ]
+    },
+    {
+      "tag": "model_confidence_info",
+      "patterns": [
+        "tf idf",
+        "cosine similarity",
+        "confidence score",
+        "how does scoring work",
+        "confidence threshold",
+        "intent matching algorithm"
+      ],
+      "responses": [
+        "Our matching engine uses **TF-IDF (Term Frequency - Inverse Document Frequency)** with **Cosine Similarity**:\n- **Confidence >= 0.45**: High certainty match, instant targeted response.\n- **Confidence 0.20 - 0.44**: Partial match, returns response plus 'Did you mean?' chips.\n- **Confidence < 0.20**: Safe fallback with interactive quick topics or Generative AI fallback."
+      ],
+      "suggestions": [
+        "Chatbot Architecture",
+        "Commercial Features",
+        "Test Sample Queries"
+      ]
+    },
+    {
+      "tag": "aws_cloud_services",
+      "patterns": [
+        "aws",
+        "amazon web services",
+        "aws services",
+        "cloud deployment on aws",
+        "ec2 s3 lambda",
+        "aws cloud"
+      ],
+      "responses": [
+        "This chatbot is built for cloud elasticity across AWS services:\n- **AWS Elastic Beanstalk**: Zero-config PaaS auto-scaling for Flask/Gunicorn.\n- **AWS ECS / App Runner**: Fully managed Docker container execution.\n- **AWS Lambda + API Gateway**: Serverless execution for cost-optimized workloads.\n- **Amazon CloudFront + S3**: Global edge distribution for the embeddable JavaScript widget."
+      ],
+      "suggestions": [
+        "Deploy to Elastic Beanstalk",
+        "Docker Deployment",
+        "API Documentation"
+      ]
+    },
+    {
+      "tag": "aws_elastic_beanstalk",
+      "patterns": [
+        "elastic beanstalk",
+        "deploy on elastic beanstalk",
+        "how to deploy to aws beanstalk",
+        "aws eb deployment",
+        "eb cli"
+      ],
+      "responses": [
+        "**Deploying to AWS Elastic Beanstalk**:\n1. Install EB CLI: `pip install awsebcli`\n2. Initialize: `eb init -p python-3.11 CodeAlpha-Chatbot`\n3. Create Environment: `eb create chatbot-prod-env`\n4. Deploy updates: `eb deploy`\n5. Open live cloud app: `eb open`"
+      ],
+      "suggestions": [
+        "Docker Deployment",
+        "Render Deployment",
+        "Health Endpoint"
+      ]
+    },
+    {
+      "tag": "docker_container",
+      "patterns": [
+        "docker",
+        "dockerfile",
+        "docker deployment",
+        "how to run with docker",
+        "docker container",
+        "docker compose"
+      ],
+      "responses": [
+        "**Docker Quickstart**:\n1. Build container: `docker build -t codealpha-chatbot .`\n2. Run locally: `docker run -d -p 5000:5000 --name chatbot codealpha-chatbot`\n3. Or use Compose: `docker-compose up -d`\nAccess the application at `http://localhost:5000`."
+      ],
+      "suggestions": [
+        "AWS Cloud Services",
+        "Render Deployment",
+        "System Architecture"
+      ]
+    },
+    {
+      "tag": "render_deployment",
+      "patterns": [
+        "render",
+        "deploy on render",
+        "render deployment",
+        "render yaml",
+        "free cloud hosting"
+      ],
+      "responses": [
+        "**1-Click Render Cloud Deployment**:\n1. Connect your GitHub repository `CodeAlpha_Chatbot` to [Render](https://render.com).\n2. Choose **Web Service**, runtime **Python 3**.\n3. Build Command: `pip install -r requirements.txt`\n4. Start Command: `gunicorn app:app`\n5. Your free HTTPS cloud endpoint will be live instantly!"
+      ],
+      "suggestions": [
+        "Docker Deployment",
+        "AWS Elastic Beanstalk",
+        "GitHub Requirements"
+      ]
+    },
+    {
+      "tag": "api_integration",
+      "patterns": [
+        "embed",
+        "embed widget",
+        "integrate on website",
+        "how to add to my website",
+        "api documentation",
+        "rest api",
+        "widget script"
+      ],
+      "responses": [
+        "**Add Chatbot to ANY Website in 1 Line**:\n```html\n<script src=\"https://your-domain.com/static/js/widget.js\" data-api-url=\"https://your-domain.com\"></script>\n```\n**REST API Endpoints**:\n- `POST /api/chat`: Send `{\"message\": \"...\"}` -> Returns `{\"reply\": \"...\", \"confidence\": 0.92, \"suggestions\": [...]}`\n- `GET /api/intents`: Returns catalog of supported intents.\n- `POST /api/ticket`: Create support ticket.\n- `GET /health`: Health and uptime telemetry."
+      ],
+      "suggestions": [
+        "Commercial Features",
+        "Raise Support Ticket",
+        "SLA & Pricing"
+      ]
+    },
+    {
+      "tag": "commercial_saas_features",
+      "patterns": [
+        "commercial features",
+        "business features",
+        "saas capabilities",
+        "why use this for business",
+        "enterprise chatbot"
+      ],
+      "responses": [
+        "**Enterprise SaaS Capabilities**:\n- Instant 24/7 autonomous Tier-1 customer support.\n- Embeddable non-intrusive floating widget.\n- Automated support ticket generation (`/api/ticket`).\n- CSAT feedback tracking (thumbs up/down analytics).\n- Zero API operational cost in local retrieval mode with sub-10ms response latency."
+      ],
+      "suggestions": [
+        "Pricing Plans",
+        "SLA and Uptime",
+        "Raise Support Ticket"
+      ]
+    },
+    {
+      "tag": "pricing_plans",
+      "patterns": [
+        "pricing",
+        "cost",
+        "how much does it cost",
+        "pricing plans",
+        "saas tiers",
+        "subscription",
+        "free tier"
+      ],
+      "responses": [
+        "**CodeAlpha Cloud Solution Tiers**:\n- **Community / Starter**: $0/month (Self-hosted, unlimited messages, pure retrieval model).\n- **Cloud Pro**: $29/month (Managed cloud deployment, analytics dashboard, SSL & custom domain).\n- **Enterprise Scale**: $99/month (Hybrid Generative LLM fallback, dedicated SLAs, 99.99% uptime)."
+      ],
+      "suggestions": [
+        "SLA and Uptime",
+        "Commercial Features",
+        "Raise Support Ticket"
+      ]
+    },
+    {
+      "tag": "sla_uptime",
+      "patterns": [
+        "sla",
+        "uptime",
+        "availability",
+        "uptime guarantee",
+        "service level agreement"
+      ],
+      "responses": [
+        "Our Cloud Chatbot infrastructure guarantees a **99.9% uptime SLA** when deployed on multi-AZ cloud providers (AWS/GCP), featuring auto-recovery health checks (`/health`) and continuous monitoring."
+      ],
+      "suggestions": [
+        "Pricing Plans",
+        "AWS Cloud Services",
+        "Health Telemetry"
+      ]
+    },
+    {
+      "tag": "security_compliance",
+      "patterns": [
+        "security",
+        "privacy",
+        "gdpr",
+        "data protection",
+        "encryption",
+        "is my data safe"
+      ],
+      "responses": [
+        "Security is built-in by design:\n- Input sanitization against XSS & prompt injections.\n- In-transit TLS 1.3 encryption for all REST API traffic.\n- No personal data stored without explicit ticket submission.\n- Stateless microservice architecture ready for HIPAA & GDPR compliance."
+      ],
+      "suggestions": [
+        "Commercial Features",
+        "System Architecture",
+        "API Documentation"
+      ]
+    },
+    {
+      "tag": "create_support_ticket",
+      "patterns": [
+        "create ticket",
+        "raise ticket",
+        "support ticket",
+        "contact human",
+        "talk to human agent",
+        "open a ticket",
+        "escalate issue"
+      ],
+      "responses": [
+        "I can create a support ticket for you right away! Click the 'Create Ticket' quick button below or send your request in the format: `ticket: [your issue summary]`."
+      ],
+      "suggestions": [
+        "Create Ticket Now",
+        "Chat with Bot",
+        "Technical Troubleshooting"
+      ]
+    },
+    {
+      "tag": "technical_troubleshooting",
+      "patterns": [
+        "troubleshooting",
+        "chatbot not working",
+        "cors issue",
+        "error 500",
+        "server error",
+        "debug chatbot"
+      ],
+      "responses": [
+        "**Troubleshooting Checklist**:\n1. Verify server health at `http://localhost:5000/health`.\n2. Ensure CORS is enabled for cross-domain widget usage.\n3. Verify port 5000 is open and not blocked by firewall.\n4. Check Gunicorn logs if running in cloud production."
+      ],
+      "suggestions": [
+        "Raise Support Ticket",
+        "Docker Deployment",
+        "Health Endpoint"
+      ]
+    },
+    {
+      "tag": "thanks",
+      "patterns": [
+        "thank you",
+        "thanks",
+        "thx",
+        "appreciate it",
+        "great job",
+        "helpful",
+        "awesome thanks"
+      ],
+      "responses": [
+        "You're very welcome! Best of luck with your CodeAlpha Cloud Computing internship. Let me know if you need anything else!",
+        "Glad I could help! Don't hesitate to ask if you have more questions about cloud deployment or tasks."
+      ],
+      "suggestions": [
+        "Internship Overview",
+        "Task 4: Making a Chatbot",
+        "Submission Guidelines"
+      ]
+    },
+    {
+      "tag": "goodbye",
+      "patterns": [
+        "bye",
+        "goodbye",
+        "see you",
+        "catch you later",
+        "exit",
+        "quit",
+        "have a good day"
+      ],
+      "responses": [
+        "Goodbye! Have a great day and keep building amazing cloud projects!",
+        "Farewell! Feel free to return anytime you need cloud or internship guidance."
+      ],
+      "suggestions": [
+        "Restart Conversation"
+      ]
+    }
+  ]
+}
