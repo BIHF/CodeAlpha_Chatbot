@@ -524,6 +524,84 @@
       ]
     },
     {
+      "tag": "product_service_discovery",
+      "patterns": [
+        "what products do you offer",
+        "what services do you provide",
+        "product catalog",
+        "service discovery",
+        "cloud solutions available",
+        "what can i buy",
+        "explore products"
+      ],
+      "responses": [
+        "**CodeAlpha NexaCloud Solutions**:\n1. **Elastic Compute**: Auto-scaling virtual containers & VMs.\n2. **Serverless Functions**: Event-driven microservices with zero cold-start delay.\n3. **Secure Object Storage**: S3-compatible, encrypted cloud file storage.\n4. **Cloud AI Chatbot**: Embeddable commercial AI assistant with hybrid streaming."
+      ],
+      "suggestions": [
+        "Pricing Plans",
+        "SLA and Uptime",
+        "Task 4: Making a Chatbot"
+      ]
+    },
+    {
+      "tag": "refund_policy",
+      "patterns": [
+        "what is your refund policy",
+        "can i get a refund",
+        "return policy",
+        "money back guarantee",
+        "cancel subscription refund",
+        "billing refund"
+      ],
+      "responses": [
+        "**Refund & Return Policy**:\n- **30-Day Money-Back Guarantee**: All new Cloud Pro and Enterprise subscriptions are eligible for a 100% refund within the first 30 days.\n- **SLA Credits**: If monthly uptime drops below 99.9%, you automatically receive a 10%–25% service credit on your next billing cycle.\n- **Prorated Cancellations**: Cancel anytime from your account dashboard with zero hidden fees."
+      ],
+      "suggestions": [
+        "Pricing Plans",
+        "SLA and Uptime",
+        "Raise Support Ticket"
+      ]
+    },
+    {
+      "tag": "operating_hours",
+      "patterns": [
+        "what are your operating hours",
+        "when is support available",
+        "business hours",
+        "what time are you open",
+        "hours of operation",
+        "support availability"
+      ],
+      "responses": [
+        "**Support & Operating Hours**:\n- **AI Chatbot & Cloud Infrastructure**: Operates 24/7/365 with autonomous health monitoring.\n- **Live Human Cloud Engineering**: Monday through Friday, 8:00 AM – 8:00 PM EST.\n- **Critical Outage Escalations**: 24/7 on-call incident response for Enterprise tier clients."
+      ],
+      "suggestions": [
+        "Talk to Human Agent",
+        "Raise Support Ticket",
+        "SLA and Uptime"
+      ]
+    },
+    {
+      "tag": "human_handoff",
+      "patterns": [
+        "human agent",
+        "talk to human",
+        "speak with a person",
+        "transfer to human",
+        "live agent",
+        "escalate to human",
+        "connect with representative"
+      ],
+      "responses": [
+        "I can connect you directly with our Cloud Engineering team! To initiate a human handoff:\n1. Type `ticket: [brief description of your request]`.\n2. Or click **Create Ticket Now** below.\nOur team will review your session history and respond promptly via email or direct chat."
+      ],
+      "suggestions": [
+        "Create Ticket Now",
+        "Operating Hours",
+        "Technical Troubleshooting"
+      ]
+    },
+    {
       "tag": "goodbye",
       "patterns": [
         "bye",

@@ -1,6 +1,6 @@
 /**
  * Simple, Clean Frontend Logic for CodeAlpha Chatbot
- * Handles message sending, backend communication, and UI updates.
+ * Supports Server-Sent Events (SSE) streaming and graceful REST fallback.
  */
 
 document.addEventListener("DOMContentLoaded", function () {
@@ -8,6 +8,13 @@ document.addEventListener("DOMContentLoaded", function () {
   const userInput = document.getElementById("user-input");
   const sendButton = document.getElementById("send-button");
   const messagesContainer = document.getElementById("chat-messages");
+
+  // Ephemeral session tracking
+  let sessionId = sessionStorage.getItem("ca_web_session_id");
+  if (!sessionId) {
+    sessionId = "web_" + Math.random().toString(36).substring(2, 11);
+    sessionStorage.setItem("ca_web_session_id", sessionId);
+  }
 
   // Keep message area scrolled to the bottom
   function scrollToBottom() {
@@ -18,7 +25,6 @@ document.addEventListener("DOMContentLoaded", function () {
   function formatMessageText(rawText) {
     if (!rawText) return "";
 
-    // Escape HTML special characters
     let safeText = rawText
       .replace(/&/g, "&amp;")
       .replace(/</g, "&lt;")
@@ -39,7 +45,7 @@ document.addEventListener("DOMContentLoaded", function () {
     return safeText;
   }
 
-  // Append a message to the chat container
+  // Append a message bubble to the chat container
   function appendMessage(text, sender) {
     const messageDiv = document.createElement("div");
     messageDiv.className = `message ${sender}`;
@@ -51,6 +57,7 @@ document.addEventListener("DOMContentLoaded", function () {
     messageDiv.appendChild(bubbleDiv);
     messagesContainer.appendChild(messageDiv);
     scrollToBottom();
+    return bubbleDiv;
   }
 
   // Show subtle typing indicator
@@ -79,7 +86,7 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   }
 
-  // Handle message sending
+  // Handle message sending with SSE streaming
   async function handleSendMessage(event) {
     event.preventDefault();
 
@@ -96,29 +103,83 @@ document.addEventListener("DOMContentLoaded", function () {
 
     showTyping();
 
-    // 3. Send request to existing Flask backend
+    let botBubble = null;
+    let accumulatedText = "";
+
     try {
-      const response = await fetch("/api/chat", {
+      // 3. Try Server-Sent Events (SSE) streaming endpoint
+      const response = await fetch("/api/chat/stream", {
         method: "POST",
         headers: {
-          "Content-Type": "application/json"
+          "Content-Type": "application/json",
+          "X-Session-ID": sessionId
         },
-        body: JSON.stringify({ message: text })
+        body: JSON.stringify({ message: text, session_id: sessionId })
       });
-
-      removeTyping();
 
       if (!response.ok) {
         throw new Error(`Server returned status ${response.status}`);
       }
 
-      const data = await response.json();
-      const reply = data.reply || "Sorry, I did not understand that.";
-      appendMessage(reply, "bot");
-    } catch (error) {
-      console.error("Chat request failed:", error);
+      const reader = response.body.getReader();
+      const decoder = new TextDecoder("utf-8");
+      let buffer = "";
+      let firstTokenReceived = false;
+
+      while (true) {
+        const { value, done } = await reader.read();
+        if (done) break;
+
+        buffer += decoder.decode(value, { stream: true });
+        const lines = buffer.split("\n\n");
+        buffer = lines.pop();
+
+        for (const line of lines) {
+          const trimmed = line.trim();
+          if (trimmed.startsWith("data:")) {
+            const dataStr = trimmed.substring(5).trim();
+            if (!dataStr) continue;
+
+            try {
+              const chunk = JSON.parse(dataStr);
+              if (!firstTokenReceived) {
+                removeTyping();
+                botBubble = appendMessage("", "bot");
+                firstTokenReceived = true;
+              }
+
+              if (chunk.token) {
+                accumulatedText += chunk.token;
+                botBubble.innerHTML = formatMessageText(accumulatedText);
+                scrollToBottom();
+              }
+            } catch (e) {
+              // Ignore non-json chunks
+            }
+          }
+        }
+      }
+
       removeTyping();
-      appendMessage("Unable to connect to the server. Please try again.", "bot");
+    } catch (streamError) {
+      console.warn("SSE stream failed, falling back to standard API:", streamError);
+      removeTyping();
+
+      // Graceful fallback to standard REST endpoint
+      try {
+        const fallbackRes = await fetch("/api/chat", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "X-Session-ID": sessionId
+          },
+          body: JSON.stringify({ message: text, session_id: sessionId })
+        });
+        const fallbackData = await fallbackRes.json();
+        appendMessage(fallbackData.reply || "Sorry, I did not understand that.", "bot");
+      } catch (err) {
+        appendMessage("Unable to connect to the server. Please try again.", "bot");
+      }
     } finally {
       // 4. Re-enable input and return focus
       userInput.disabled = false;
@@ -127,7 +188,7 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   }
 
-  // Form submit handler (triggers on Send button click or Enter key)
+  // Form submit handler
   chatForm.addEventListener("submit", handleSendMessage);
 
   // Focus input on load

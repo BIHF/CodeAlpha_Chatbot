@@ -1,15 +1,17 @@
 """
 CodeAlpha Cloud AI Chatbot - Enterprise Flask Application
-Features Hybrid NLP Engine (TF-IDF + Cosine Similarity), Live SaaS Demo,
-Dedicated Fullscreen Portal, Embeddable Widget, and Support Ticket Automation.
+Features Hybrid NLP Engine (TF-IDF + Cosine Similarity), Streaming SSE Endpoint,
+Ephemeral Session Context Memory, Live Showcase, and Embeddable Widget.
 """
 
 import os
+import json
 import time
 import datetime
-from flask import Flask, request, jsonify, render_template
+from flask import Flask, request, jsonify, render_template, Response
 
 from engine.intent_matcher import IntentMatcher
+from engine.session_manager import session_manager
 
 app = Flask(__name__)
 app.config["SECRET_KEY"] = os.getenv("SECRET_KEY", "codealpha-chatbot-secret-key-2026")
@@ -36,20 +38,20 @@ def get_reply(message):
 def add_cors_headers(response):
     """Allow cross-origin access so the chatbot widget can be embedded on any website."""
     response.headers["Access-Control-Allow-Origin"] = "*"
-    response.headers["Access-Control-Allow-Headers"] = "Content-Type, Authorization"
+    response.headers["Access-Control-Allow-Headers"] = "Content-Type, Authorization, X-Session-ID"
     response.headers["Access-Control-Allow-Methods"] = "GET, POST, OPTIONS"
     return response
 
 
 @app.route("/")
 def home():
-    """Commercial SaaS Landing Page demonstrating the embedded floating chatbot widget."""
+    """Main Website with embedded clean commercial chatbot."""
     return render_template("index.html")
 
 
 @app.route("/chat")
 def chat_portal():
-    """Dedicated full-screen AI assistant portal with confidence telemetry."""
+    """Dedicated full-screen AI assistant portal."""
     return render_template("chat.html")
 
 
@@ -62,12 +64,13 @@ def embed_widget():
 @app.route("/api/chat", methods=["POST"])
 def api_chat():
     """
-    Main Chat API Endpoint.
+    Main Non-Streaming Chat API Endpoint.
     Payload: {"message": "string", "session_id": "optional-string"}
     Returns rich match results with confidence score and actionable suggestion chips.
     """
     data = request.get_json(silent=True) or {}
     message = data.get("message", "")
+    session_id = data.get("session_id") or request.headers.get("X-Session-ID")
 
     if not isinstance(message, str):
         return jsonify(error="Message must be text"), 400
@@ -75,10 +78,44 @@ def api_chat():
     if len(message) > 1000:
         return jsonify(error="Message exceeds maximum length of 1000 characters"), 400
 
-    match_result = matcher.match(message)
+    match_result = matcher.match(message, session_id=session_id)
     match_result["timestamp"] = datetime.datetime.now(datetime.timezone.utc).isoformat()
+    if session_id:
+        match_result["session_id"] = session_id
 
     return jsonify(match_result)
+
+
+@app.route("/api/chat/stream", methods=["POST", "GET"])
+def api_chat_stream():
+    """
+    Streaming Chat Endpoint using Server-Sent Events (SSE).
+    Provides instant responses with TTFT < 300ms.
+    Payload: {"message": "string", "session_id": "optional-string"}
+    or Query parameters: ?message=...&session_id=...
+    """
+    if request.method == "POST":
+        data = request.get_json(silent=True) or {}
+        message = data.get("message", "")
+        session_id = data.get("session_id") or request.headers.get("X-Session-ID")
+    else:
+        message = request.args.get("message", "")
+        session_id = request.args.get("session_id") or request.headers.get("X-Session-ID")
+
+    if not isinstance(message, str):
+        return jsonify(error="Message must be text"), 400
+
+    if len(message) > 1000:
+        return jsonify(error="Message exceeds maximum length of 1000 characters"), 400
+
+    def event_stream():
+        for chunk in matcher.stream_match(message, session_id=session_id):
+            yield f"data: {json.dumps(chunk)}\n\n"
+
+    response = Response(event_stream(), mimetype="text/event-stream")
+    response.headers["Cache-Control"] = "no-cache"
+    response.headers["X-Accel-Buffering"] = "no"
+    return response
 
 
 @app.route("/api/intents", methods=["GET"])
@@ -150,10 +187,10 @@ def health():
         status="healthy",
         uptime_seconds=uptime_seconds,
         intents_loaded=len(matcher.intents_data),
-        engine="Hybrid TF-IDF + Cosine Retrieval",
+        engine="Hybrid TF-IDF + Streaming Cosine Retrieval",
         generative_fallback=matcher.llm_engine.is_available,
         active_tickets=len(SUPPORT_TICKETS),
-        version="2.0.0"
+        version="2.1.0"
     )
 
 
