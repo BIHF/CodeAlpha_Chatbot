@@ -12,13 +12,13 @@ def client():
 def test_home_page(client):
     res = client.get("/")
     assert res.status_code == 200
-    assert b"CodeAlpha NexaCloud" in res.data
+    assert b"CodeAlpha Chatbot Project" in res.data
 
 
 def test_chat_portal_page(client):
     res = client.get("/chat")
     assert res.status_code == 200
-    assert b"CodeAlpha Cloud AI Portal" in res.data
+    assert b"CodeAlpha Chatbot Project" in res.data
 
 
 def test_embed_page(client):
