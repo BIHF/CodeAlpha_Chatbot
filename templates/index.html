@@ -27,6 +27,10 @@
       --shadow-lg: 0 10px 15px -3px rgba(28, 25, 23, 0.08), 0 4px 6px -4px rgba(28, 25, 23, 0.04);
     }
 
+    html {
+      scroll-behavior: smooth;
+    }
+
     * {
       box-sizing: border-box;
       margin: 0;
@@ -691,6 +695,47 @@
     </div>
   </section>
 
+  <!-- SLAs & Policies Section -->
+  <section class="container" id="slas">
+    <h2 class="section-title">Service Level Agreements (SLAs) & Policies</h2>
+    <p class="section-desc">Enterprise reliability commitments, guaranteed uptime thresholds, and customer-first policies.</p>
+
+    <div class="grid-3">
+      <div class="feature-card">
+        <div class="feature-icon">
+          <svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+        </div>
+        <h3>99.9% Uptime Guarantee</h3>
+        <p>Deployed across multi-AZ cloud zones with automated health monitoring at <code>/health</code> and instant failover protocols.</p>
+        <button class="pricing-btn" style="width: 100%; margin-top: 14px;" onclick="window.CodeAlphaChatbot.ask('Tell me about your SLA and uptime guarantee')">
+          Ask AI About SLA
+        </button>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-icon">
+          <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+        </div>
+        <h3>30-Day Money-Back Guarantee</h3>
+        <p>Try Cloud Pro or Enterprise risk-free. If you are not satisfied within 30 days, receive an immediate full refund with zero hassle.</p>
+        <button class="pricing-btn" style="width: 100%; margin-top: 14px;" onclick="window.CodeAlphaChatbot.ask('What is your refund policy?')">
+          Ask AI About Refund Policy
+        </button>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-icon">
+          <svg viewBox="0 0 24 24"><line x1="12" y1="1" x2="12" y2="23"></line><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path></svg>
+        </div>
+        <h3>Automatic SLA Credits</h3>
+        <p>If monthly availability drops below 99.9%, account service credits ranging from 10% to 25% are credited automatically to your invoice.</p>
+        <button class="pricing-btn" style="width: 100%; margin-top: 14px;" onclick="window.CodeAlphaChatbot.ask('How do SLA service credits work?')">
+          Ask AI About Credits
+        </button>
+      </div>
+    </div>
+  </section>
+
   <!-- Embed Widget Section -->
   <section class="container" id="integration">
     <div class="code-box-card">
@@ -717,11 +762,12 @@
       <div class="footer-links">
         <a href="#products">Products</a>
         <a href="#pricing">Pricing</a>
+        <a href="#slas">SLAs & Policies</a>
         <a href="/chat">Standalone Portal</a>
         <a href="/health">Health Telemetry</a>
         <a href="javascript:void(0)" onclick="window.CodeAlphaChatbot.ask('ticket: General sales inquiry')">Create Ticket</a>
       </div>
-      <p>© 2026 CodeAlpha NexaCloud Technologies • CodeAlpha Chatbot Project • Built for CodeAlpha Cloud Computing Internship (Task 4: Making a Chatbot).</p>
+      <p>© 2026 CodeAlpha NexaCloud Technologies • Built for CodeAlpha Cloud Computing Internship • CodeAlpha Chatbot Project</p>
     </div>
   </footer>
 
