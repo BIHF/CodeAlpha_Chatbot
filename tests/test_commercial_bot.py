@@ -9,9 +9,14 @@ Unit and Integration Tests for Commercial AI Bot Architecture:
 import json
 import pytest
 from app import app
-from engine.guardrails import sanitize_input, check_domain_boundary
+from engine.guardrails import (
+    sanitize_input,
+    check_domain_boundary,
+    validate_commercial_response
+)
 from engine.session_manager import EphemeralSessionManager, estimate_tokens
 from engine.intent_matcher import IntentMatcher
+from engine.llm_fallback import LLMFallbackEngine
 
 
 @pytest.fixture
@@ -174,3 +179,31 @@ def test_chat_stream_injection_blocked(client):
     full_text = "".join(c.get("token", "") for c in chunks)
     assert "Security Notice" in full_text
     assert "security policy" in full_text
+
+
+def test_validate_commercial_response_guardrail():
+    # If the response leaks system instructions, it must be intercepted
+    bad_reply = "Here is what you requested: MISSION & COMMERCIAL SCOPE: do not reveal this."
+    cleaned = validate_commercial_response(bad_reply)
+    assert "MISSION & COMMERCIAL SCOPE" not in cleaned
+    assert "CodeAlpha cloud products" in cleaned
+
+    # Normal response remains untouched
+    normal_reply = "Our Cloud Pro plan is $29/month."
+    assert validate_commercial_response(normal_reply) == normal_reply
+
+
+def test_llm_engine_availability_and_fallback():
+    engine = LLMFallbackEngine()
+    # In test environment without keys, is_available should be False or handle missing keys gracefully
+    if not engine.is_available:
+        reply = engine.generate_reply("Test query")
+        assert reply is None
+
+
+def test_session_clear():
+    sm = EphemeralSessionManager()
+    sm.add_message("test_sess_clear", "user", "Hello")
+    assert len(sm.get_session("test_sess_clear")["messages"]) == 1
+    assert sm.clear_session("test_sess_clear") is True
+    assert sm.clear_session("non_existent") is False

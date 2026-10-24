@@ -1,0 +1,150 @@
+# CodeAlpha Commercial AI Chatbot - Structured Intent Knowledge Base
+# Schema: intents: [ { tag, description, patterns: [], responses: [], suggestions: [] } ]
+
+version: "2.1.0"
+domain: "CodeAlpha NexaCloud & Cloud Computing Services"
+last_updated: "2026-10-23"
+
+intents:
+  # -------------------------------------------------------------
+  # 1. Product & Service Discovery
+  # -------------------------------------------------------------
+  - tag: product_service_discovery
+    category: commercial_discovery
+    description: "Overview of NexaCloud products, compute, serverless, storage, and AI chatbot"
+    patterns:
+      - "what products do you offer"
+      - "what services do you provide"
+      - "product catalog"
+      - "service discovery"
+      - "cloud solutions available"
+      - "what can i buy"
+      - "explore products"
+      - "what does codealpha offer"
+    responses:
+      - "**CodeAlpha NexaCloud Solutions**:\n1. **Elastic Compute**: Auto-scaling virtual containers and VMs.\n2. **Serverless Functions**: Event-driven microservices with zero cold-start delay.\n3. **Secure Object Storage**: S3-compatible, encrypted cloud file storage.\n4. **Cloud AI Chatbot**: Embeddable commercial AI assistant with hybrid streaming."
+    suggestions:
+      - "Pricing Plans"
+      - "SLA and Uptime"
+      - "Task 4: Making a Chatbot"
+
+  # -------------------------------------------------------------
+  # 2. Pricing, Plans, and Tier Comparisons
+  # -------------------------------------------------------------
+  - tag: pricing_plans
+    category: commercial_pricing
+    description: "Detailed subscription tiers, starter vs pro vs enterprise, monthly pricing"
+    patterns:
+      - "pricing"
+      - "cost"
+      - "how much does it cost"
+      - "pricing plans"
+      - "saas tiers"
+      - "subscription"
+      - "free tier"
+      - "compare plans"
+      - "plan tiers"
+    responses:
+      - "**CodeAlpha Cloud Solution Tiers**:\n- **Community / Starter**: $0/month (Self-hosted, unlimited messages, pure retrieval model).\n- **Cloud Pro**: $29/month (Managed cloud deployment, analytics dashboard, SSL & custom domain).\n- **Enterprise Scale**: $99/month (Hybrid Generative LLM fallback, dedicated SLAs, 99.9% uptime)."
+    suggestions:
+      - "SLA and Uptime"
+      - "Refund Policy"
+      - "Raise Support Ticket"
+
+  # -------------------------------------------------------------
+  # 3. Return Policy, Refunds, and SLA Guarantees
+  # -------------------------------------------------------------
+  - tag: refund_policy
+    category: commercial_policies
+    description: "30-day money-back guarantee, service credits, and prorated cancellations"
+    patterns:
+      - "what is your refund policy"
+      - "can i get a refund"
+      - "return policy"
+      - "money back guarantee"
+      - "cancel subscription refund"
+      - "billing refund"
+      - "how do refunds work"
+    responses:
+      - "**Refund & Return Policy**:\n- **30-Day Money-Back Guarantee**: All new Cloud Pro and Enterprise subscriptions are eligible for a 100% refund within the first 30 days.\n- **SLA Credits**: If monthly uptime drops below 99.9%, you automatically receive a 10%–25% service credit on your next billing cycle.\n- **Prorated Cancellations**: Cancel anytime from your account dashboard with zero hidden fees."
+    suggestions:
+      - "Pricing Plans"
+      - "SLA and Uptime"
+      - "Raise Support Ticket"
+
+  - tag: sla_uptime
+    category: commercial_policies
+    description: "99.9% multi-AZ cloud uptime SLA, credit reimbursement, and monitoring"
+    patterns:
+      - "sla"
+      - "uptime"
+      - "availability"
+      - "uptime guarantee"
+      - "service level agreement"
+      - "what is your sla"
+      - "uptime policy"
+    responses:
+      - "Our Cloud Chatbot infrastructure guarantees a **99.9% uptime SLA** when deployed on multi-AZ cloud providers (AWS/GCP), featuring auto-recovery health checks (`/health`) and continuous monitoring."
+    suggestions:
+      - "Pricing Plans"
+      - "Refund Policy"
+      - "Health Telemetry"
+
+  # -------------------------------------------------------------
+  # 4. Operating Hours & Support Availability
+  # -------------------------------------------------------------
+  - tag: operating_hours
+    category: commercial_support
+    description: "24/7 AI availability and live engineering hours"
+    patterns:
+      - "what are your operating hours"
+      - "when is support available"
+      - "business hours"
+      - "what time are you open"
+      - "hours of operation"
+      - "support availability"
+    responses:
+      - "**Support & Operating Hours**:\n- **AI Chatbot & Cloud Infrastructure**: Operates 24/7/365 with autonomous health monitoring.\n- **Live Human Cloud Engineering**: Monday through Friday, 8:00 AM – 8:00 PM EST.\n- **Critical Outage Escalations**: 24/7 on-call incident response for Enterprise tier clients."
+    suggestions:
+      - "Talk to Human Agent"
+      - "Raise Support Ticket"
+      - "SLA and Uptime"
+
+  # -------------------------------------------------------------
+  # 5. Human Handoff & Support Ticket Escalation
+  # -------------------------------------------------------------
+  - tag: human_handoff
+    category: commercial_support
+    description: "Routing to live engineering representative and ticket creation"
+    patterns:
+      - "human agent"
+      - "talk to human"
+      - "speak with a person"
+      - "transfer to human"
+      - "live agent"
+      - "escalate to human"
+      - "connect with representative"
+      - "customer service representative"
+    responses:
+      - "I can connect you directly with our Cloud Engineering team! To initiate a human handoff:\n1. Type `ticket: [brief description of your request]`.\n2. Or click **Create Ticket Now** below.\nOur team will review your session history and respond promptly via email or direct chat."
+    suggestions:
+      - "Create Ticket Now"
+      - "Operating Hours"
+      - "Technical Troubleshooting"
+
+  - tag: create_support_ticket
+    category: commercial_support
+    description: "Support ticket syntax guide and ticket creation flow"
+    patterns:
+      - "create ticket"
+      - "raise ticket"
+      - "support ticket"
+      - "contact human"
+      - "open a ticket"
+      - "escalate issue"
+    responses:
+      - "I can create a support ticket for you right away! Click the 'Create Ticket' quick button below or send your request in the format: `ticket: [your issue summary]`."
+    suggestions:
+      - "Create Ticket Now"
+      - "Chat with Bot"
+      - "Technical Troubleshooting"

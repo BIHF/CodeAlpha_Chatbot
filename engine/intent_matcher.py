@@ -16,7 +16,11 @@ from engine.nlp_engine import (
     levenshtein_similarity
 )
 from engine.llm_fallback import LLMFallbackEngine
-from engine.guardrails import sanitize_input, check_domain_boundary
+from engine.guardrails import (
+    sanitize_input,
+    check_domain_boundary,
+    validate_commercial_response
+)
 from engine.session_manager import session_manager
 
 DEFAULT_INTENTS_PATH = os.path.join(
@@ -236,19 +240,25 @@ class IntentMatcher:
         # Low Confidence: Check Generative LLM Fallback
         if self.llm_engine.is_available:
             context_history = ""
+            context_messages = []
             if session_id:
-                window = session_manager.get_context_window(session_id, max_messages=6)
-                context_history = "\n".join(f"{m['role']}: {m['content']}" for m in window)
+                context_messages = session_manager.get_context_window(session_id, max_messages=6)
+                context_history = "\n".join(f"{m['role']}: {m['content']}" for m in context_messages)
 
-            llm_result = self.llm_engine.generate_reply(raw_text, context_summary=context_history)
+            llm_result = self.llm_engine.generate_reply(
+                raw_text,
+                context_summary=context_history,
+                context_messages=context_messages
+            )
             if llm_result:
                 reply_text, provider = llm_result
+                reply_text = validate_commercial_response(reply_text)
                 result = {
-                    "reply": f"{reply_text}\n\n*(Generated via {provider} fallback)*",
+                    "reply": f"{reply_text}\n\n*(Generated via {provider} with enterprise guardrails)*",
                     "intent": "llm_generative",
                     "confidence": 0.50,
                     "tier": "llm",
-                    "suggestions": ["Task 4: Making a Chatbot", "AWS Cloud Services", "Create Support Ticket"],
+                    "suggestions": ["Product & Services", "Pricing Plans", "Create Support Ticket"],
                     "latency_ms": round((time.perf_counter() - start_time) * 1000.0, 2)
                 }
                 if session_id:

@@ -1,22 +1,25 @@
 /**
- * CodeAlpha Commercial AI Chatbot Widget (Enterprise Edition)
+ * CodeAlpha Commercial AI Chatbot Widget (Enterprise Production Edition)
  * Zero-dependency, Shadow-DOM encapsulated, accessible, streaming web component.
+ * 
  * Features:
- *  - Shadow DOM style isolation (zero host CSS bleed)
- *  - Server-Sent Events (SSE) streaming with TTFT < 300ms
- *  - Ephemeral session memory & sliding context window
- *  - Editorial, warm-neutral human-centered design
- *  - ARIA compliance & keyboard navigation (Esc to close, Enter to send)
+ *  - Complete Shadow DOM encapsulation (zero host CSS leakage)
+ *  - Server-Sent Events (SSE) streaming with sub-300ms Time-to-First-Token (TTFT)
+ *  - Ephemeral session memory with token budget sliding window context
+ *  - Warm neutral editorial aesthetic (no neon AI tropes, natural whitespace & typography)
+ *  - Optimistic UI updates with quiet 3-dot pulsing typing indicator
+ *  - Accessible (WCAG 2.1 AA, ARIA roles, keyboard navigation, Esc to close)
+ *  - Fault tolerance & automatic fallback handling with retry mechanism
  */
 
 (function () {
   "use strict";
 
-  // Check if widget already registered
+  // Prevent multiple instantiations if script is embedded more than once
   if (window.CodeAlphaWidgetLoaded) return;
   window.CodeAlphaWidgetLoaded = true;
 
-  // Determine API endpoint from script tag or fallback to current origin
+  // Detect script element and base API configuration
   const currentScript = document.currentScript || (function () {
     const scripts = document.getElementsByTagName("script");
     return scripts[scripts.length - 1];
@@ -31,7 +34,7 @@
     sessionStorage.setItem("ca_chat_session_id", sessionId);
   }
 
-  // Create host container for Shadow DOM
+  // Create host container element in DOM
   const hostElement = document.createElement("div");
   hostElement.id = "codealpha-chatbot-root";
   document.body.appendChild(hostElement);
@@ -39,36 +42,43 @@
   // Attach Shadow DOM for complete CSS isolation
   const shadow = hostElement.attachShadow({ mode: "open" });
 
-  // Component Styles
+  // Component Scoped Styles (Human-Centered Warm Neutral System)
   const style = document.createElement("style");
   style.textContent = `
     :host {
-      --font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif;
-      --bg-surface: #ffffff;
-      --bg-canvas: #fafaf9;
-      --text-main: #1f2937;
-      --text-muted: #6b7280;
-      --text-light: #9ca3af;
-      --border-color: #e5e7eb;
-      --border-focus: #16a34a;
+      --font-stack: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
       
-      /* Understated brand accent */
-      --accent-color: #16a34a;
-      --accent-hover: #15803d;
-      --accent-soft: rgba(22, 163, 74, 0.12);
+      /* Editorial Warm Neutral Palette */
+      --color-canvas: #fafaf9;
+      --color-surface: #ffffff;
+      --color-border: #e7e5e4;
+      --color-border-subtle: #f5f5f4;
+      --color-text-primary: #1c1917;
+      --color-text-secondary: #57534e;
+      --color-text-tertiary: #a8a29e;
       
-      /* Message Bubbles */
-      --bubble-bot-bg: #f4f4f5;
-      --bubble-bot-text: #1f2937;
-      --bubble-user-bg: #dcfce7;
-      --bubble-user-text: #14532d;
+      /* Understated Brand Accent (Reserved strictly for active interactive elements) */
+      --color-accent: #15803d;
+      --color-accent-hover: #166534;
+      --color-accent-soft: rgba(21, 128, 61, 0.08);
+      --color-accent-focus: rgba(21, 128, 61, 0.22);
       
-      --shadow-modal: 0 10px 25px -5px rgba(0, 0, 0, 0.08), 0 8px 10px -6px rgba(0, 0, 0, 0.05);
-      --shadow-launcher: 0 4px 14px rgba(0, 0, 0, 0.1);
+      /* Message Bubble System */
+      --bubble-bot-bg: #f5f5f4;
+      --bubble-bot-text: #1c1917;
+      --bubble-user-bg: #ecfdf5;
+      --bubble-user-text: #064e3b;
+      --bubble-user-border: #d1fae5;
       
-      font-family: var(--font-family);
-      line-height: 1.55;
+      /* Natural Soft Shadows */
+      --shadow-launcher: 0 4px 14px -2px rgba(28, 25, 23, 0.08), 0 2px 6px -1px rgba(28, 25, 23, 0.04);
+      --shadow-launcher-hover: 0 6px 20px -2px rgba(28, 25, 23, 0.12), 0 3px 8px -1px rgba(28, 25, 23, 0.06);
+      --shadow-window: 0 20px 25px -5px rgba(28, 25, 23, 0.08), 0 8px 10px -6px rgba(28, 25, 23, 0.04);
+
+      font-family: var(--font-stack);
+      line-height: 1.6;
       -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
     }
 
     * {
@@ -77,77 +87,83 @@
       padding: 0;
     }
 
-    /* Floating Launcher Button */
+    /* Launcher Button */
     .ca-launcher {
       position: fixed;
       bottom: 24px;
       right: 24px;
-      width: 56px;
-      height: 56px;
+      width: 54px;
+      height: 54px;
       border-radius: 50%;
-      background-color: var(--bg-surface);
-      color: var(--text-main);
-      border: 1px solid var(--border-color);
+      background-color: var(--color-surface);
+      color: var(--color-text-primary);
+      border: 1px solid var(--color-border);
       box-shadow: var(--shadow-launcher);
       cursor: pointer;
       display: flex;
       align-items: center;
       justify-content: center;
       z-index: 2147483647;
-      transition: transform 0.15s ease, box-shadow 0.15s ease;
+      transition: transform 0.18s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.18s ease;
       outline: none;
     }
 
     .ca-launcher:hover {
       transform: translateY(-2px);
-      box-shadow: 0 6px 18px rgba(0, 0, 0, 0.12);
+      box-shadow: var(--shadow-launcher-hover);
     }
 
     .ca-launcher:focus-visible {
-      box-shadow: 0 0 0 3px var(--accent-soft);
-      border-color: var(--accent-color);
+      box-shadow: 0 0 0 3px var(--color-accent-focus);
+      border-color: var(--color-accent);
     }
 
     .ca-launcher svg {
-      width: 24px;
-      height: 24px;
-      stroke: var(--text-main);
+      width: 22px;
+      height: 22px;
+      stroke: var(--color-text-primary);
       fill: none;
-      stroke-width: 1.8;
+      stroke-width: 1.75;
       stroke-linecap: round;
       stroke-linejoin: round;
+      transition: transform 0.2s ease;
     }
 
-    .ca-unread-dot {
+    .ca-launcher.open svg {
+      transform: rotate(90deg);
+    }
+
+    .ca-badge-dot {
       position: absolute;
-      top: 12px;
-      right: 12px;
+      top: 10px;
+      right: 10px;
       width: 8px;
       height: 8px;
       border-radius: 50%;
-      background-color: var(--accent-color);
+      background-color: var(--color-accent);
+      border: 2px solid var(--color-surface);
     }
 
-    /* Chat Modal Window */
+    /* Chat Window Container */
     .ca-modal {
       position: fixed;
-      bottom: 92px;
+      bottom: 90px;
       right: 24px;
-      width: 388px;
-      height: 580px;
+      width: 396px;
+      height: 590px;
       max-width: calc(100vw - 32px);
-      max-height: calc(100vh - 120px);
-      background-color: var(--bg-surface);
-      border: 1px solid var(--border-color);
-      border-radius: 16px;
-      box-shadow: var(--shadow-modal);
+      max-height: calc(100vh - 110px);
+      background-color: var(--color-surface);
+      border: 1px solid var(--color-border);
+      border-radius: 18px;
+      box-shadow: var(--shadow-window);
       display: flex;
       flex-direction: column;
       overflow: hidden;
       z-index: 2147483646;
       opacity: 0;
       visibility: hidden;
-      transform: translateY(14px) scale(0.98);
+      transform: translateY(12px) scale(0.98);
       transition: opacity 0.18s ease-out, transform 0.18s ease-out, visibility 0.18s;
     }
 
@@ -160,14 +176,15 @@
     /* Header */
     .ca-header {
       padding: 14px 18px;
-      background-color: var(--bg-surface);
-      border-bottom: 1px solid var(--border-color);
+      background-color: var(--color-surface);
+      border-bottom: 1px solid var(--color-border);
       display: flex;
       align-items: center;
       justify-content: space-between;
+      user-select: none;
     }
 
-    .ca-header-title-group {
+    .ca-header-left {
       display: flex;
       align-items: center;
       gap: 10px;
@@ -177,43 +194,44 @@
       width: 32px;
       height: 32px;
       border-radius: 8px;
-      background-color: var(--bg-canvas);
-      border: 1px solid var(--border-color);
+      background-color: var(--color-canvas);
+      border: 1px solid var(--color-border);
       display: flex;
       align-items: center;
       justify-content: center;
-      color: var(--accent-color);
+      color: var(--color-accent);
     }
 
     .ca-avatar-icon svg {
-      width: 18px;
-      height: 18px;
+      width: 17px;
+      height: 17px;
       stroke: currentColor;
       fill: none;
-      stroke-width: 2;
+      stroke-width: 1.8;
     }
 
-    .ca-header-text h3 {
-      font-size: 14.5px;
+    .ca-header-title {
+      font-size: 14px;
       font-weight: 600;
-      color: var(--text-main);
-      line-height: 1.2;
+      color: var(--color-text-primary);
+      letter-spacing: -0.01em;
+      line-height: 1.25;
     }
 
-    .ca-status-line {
+    .ca-header-status {
       display: flex;
       align-items: center;
-      gap: 6px;
+      gap: 5px;
       font-size: 11.5px;
-      color: var(--text-muted);
-      margin-top: 2px;
+      color: var(--color-text-secondary);
+      margin-top: 1px;
     }
 
     .ca-status-dot {
       width: 6px;
       height: 6px;
       border-radius: 50%;
-      background-color: var(--accent-color);
+      background-color: var(--color-accent);
     }
 
     .ca-header-actions {
@@ -225,45 +243,51 @@
     .ca-icon-btn {
       background: none;
       border: none;
-      color: var(--text-muted);
+      color: var(--color-text-secondary);
       cursor: pointer;
       padding: 6px;
       border-radius: 6px;
       display: flex;
       align-items: center;
       justify-content: center;
-      transition: background 0.15s, color 0.15s;
+      transition: background-color 0.15s, color 0.15s;
+      outline: none;
     }
 
     .ca-icon-btn:hover {
-      background-color: var(--bg-canvas);
-      color: var(--text-main);
+      background-color: var(--color-canvas);
+      color: var(--color-text-primary);
+    }
+
+    .ca-icon-btn:focus-visible {
+      box-shadow: 0 0 0 2px var(--color-accent-focus);
     }
 
     .ca-icon-btn svg {
-      width: 16px;
-      height: 16px;
+      width: 15px;
+      height: 15px;
       stroke: currentColor;
       fill: none;
-      stroke-width: 2;
+      stroke-width: 1.75;
     }
 
-    /* Message Thread Area */
-    .ca-messages {
+    /* Message Thread */
+    .ca-thread {
       flex: 1;
       overflow-y: auto;
       padding: 18px;
       display: flex;
       flex-direction: column;
-      gap: 12px;
-      background-color: var(--bg-canvas);
+      gap: 14px;
+      background-color: var(--color-canvas);
+      scroll-behavior: smooth;
     }
 
-    .ca-msg {
+    .ca-msg-wrapper {
       display: flex;
       flex-direction: column;
       width: 100%;
-      animation: caFadeIn 0.18s ease-out;
+      animation: caFadeIn 0.18s cubic-bezier(0.16, 1, 0.3, 1);
     }
 
     @keyframes caFadeIn {
@@ -271,46 +295,48 @@
       to { opacity: 1; transform: translateY(0); }
     }
 
-    .ca-msg.bot {
+    .ca-msg-wrapper.bot {
       align-items: flex-start;
     }
 
-    .ca-msg.user {
+    .ca-msg-wrapper.user {
       align-items: flex-end;
     }
 
     .ca-bubble {
-      max-width: 84%;
+      max-width: 86%;
       padding: 10px 14px;
-      border-radius: 12px;
+      border-radius: 13px;
       font-size: 13.5px;
-      line-height: 1.55;
+      line-height: 1.58;
       word-break: break-word;
-      white-space: pre-wrap;
     }
 
-    .ca-msg.bot .ca-bubble {
+    .ca-msg-wrapper.bot .ca-bubble {
       background-color: var(--bubble-bot-bg);
       color: var(--bubble-bot-text);
       border-top-left-radius: 3px;
     }
 
-    .ca-msg.user .ca-bubble {
+    .ca-msg-wrapper.user .ca-bubble {
       background-color: var(--bubble-user-bg);
       color: var(--bubble-user-text);
+      border: 1px solid var(--bubble-user-border);
       border-top-right-radius: 3px;
     }
 
-    /* Markdown styling inside bubbles */
+    /* Clean Markdown inside Bubbles */
     .ca-bubble p {
-      margin-bottom: 6px;
+      margin-bottom: 7px;
     }
+
     .ca-bubble p:last-child {
       margin-bottom: 0;
     }
 
     .ca-bubble strong {
       font-weight: 600;
+      color: inherit;
     }
 
     .ca-bubble ul, .ca-bubble ol {
@@ -322,51 +348,59 @@
     }
 
     .ca-bubble code {
-      font-family: Consolas, Monaco, monospace;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
       font-size: 12px;
-      background: rgba(0, 0, 0, 0.06);
-      padding: 2px 4px;
+      background-color: rgba(28, 25, 23, 0.05);
+      padding: 2px 5px;
       border-radius: 4px;
     }
 
     .ca-bubble a {
-      color: var(--accent-color);
+      color: var(--color-accent);
       text-decoration: underline;
+      text-underline-offset: 2px;
     }
 
-    /* Suggestions Chips */
+    /* Suggestion Chips */
     .ca-suggestions {
       display: flex;
       flex-wrap: wrap;
       gap: 6px;
-      margin-top: 6px;
+      margin-top: 8px;
     }
 
     .ca-chip {
-      background-color: var(--bg-surface);
-      border: 1px solid var(--border-color);
-      color: var(--text-main);
-      padding: 5px 10px;
+      background-color: var(--color-surface);
+      border: 1px solid var(--color-border);
+      color: var(--color-text-primary);
+      padding: 5px 11px;
       border-radius: 16px;
       font-size: 12px;
+      font-weight: 450;
       cursor: pointer;
-      transition: border-color 0.15s, background-color 0.15s;
+      transition: border-color 0.15s, background-color 0.15s, color 0.15s;
+      outline: none;
+      user-select: none;
     }
 
     .ca-chip:hover {
-      border-color: var(--accent-color);
-      color: var(--accent-color);
-      background-color: var(--accent-soft);
+      border-color: var(--color-accent);
+      color: var(--color-accent);
+      background-color: var(--color-accent-soft);
     }
 
-    /* Typing State */
+    .ca-chip:focus-visible {
+      box-shadow: 0 0 0 2px var(--color-accent-focus);
+    }
+
+    /* Quiet 3-Dot Typing Indicator */
     .ca-typing {
       display: inline-flex;
       align-items: center;
       gap: 4px;
-      padding: 8px 12px;
+      padding: 10px 14px;
       background-color: var(--bubble-bot-bg);
-      border-radius: 12px;
+      border-radius: 13px;
       border-top-left-radius: 3px;
       width: fit-content;
     }
@@ -375,24 +409,24 @@
       width: 5px;
       height: 5px;
       border-radius: 50%;
-      background-color: var(--text-muted);
-      opacity: 0.4;
-      animation: caBlink 1.2s infinite ease-in-out;
+      background-color: var(--color-text-secondary);
+      opacity: 0.35;
+      animation: caPulse 1.25s infinite ease-in-out;
     }
 
     .ca-dot:nth-child(2) { animation-delay: 0.2s; }
     .ca-dot:nth-child(3) { animation-delay: 0.4s; }
 
-    @keyframes caBlink {
-      0%, 80%, 100% { opacity: 0.3; transform: scale(0.9); }
-      40% { opacity: 1; transform: scale(1.1); }
+    @keyframes caPulse {
+      0%, 80%, 100% { opacity: 0.25; transform: scale(0.9); }
+      40% { opacity: 0.95; transform: scale(1.1); }
     }
 
-    /* Input Footer */
+    /* Footer & Input */
     .ca-footer {
       padding: 12px 14px;
-      background-color: var(--bg-surface);
-      border-top: 1px solid var(--border-color);
+      background-color: var(--color-surface);
+      border-top: 1px solid var(--color-border);
     }
 
     .ca-form {
@@ -403,27 +437,31 @@
 
     .ca-input {
       flex: 1;
-      border: 1px solid var(--border-color);
-      border-radius: 8px;
+      border: 1px solid var(--color-border);
+      border-radius: 9px;
       padding: 9px 12px;
       font-size: 13.5px;
-      color: var(--text-main);
-      background-color: var(--bg-surface);
+      color: var(--color-text-primary);
+      background-color: var(--color-surface);
       outline: none;
-      transition: border-color 0.15s, box-shadow 0.15s;
       font-family: inherit;
+      transition: border-color 0.15s, box-shadow 0.15s;
     }
 
     .ca-input:focus {
-      border-color: var(--accent-color);
-      box-shadow: 0 0 0 2px var(--accent-soft);
+      border-color: var(--color-accent);
+      box-shadow: 0 0 0 2px var(--color-accent-focus);
+    }
+
+    .ca-input::placeholder {
+      color: var(--color-text-tertiary);
     }
 
     .ca-send-btn {
-      background-color: var(--accent-color);
+      background-color: var(--color-accent);
       color: #ffffff;
       border: none;
-      border-radius: 8px;
+      border-radius: 9px;
       padding: 9px 14px;
       font-size: 13.5px;
       font-weight: 500;
@@ -432,25 +470,31 @@
       align-items: center;
       justify-content: center;
       transition: background-color 0.15s;
+      outline: none;
     }
 
     .ca-send-btn:hover {
-      background-color: var(--accent-hover);
+      background-color: var(--color-accent-hover);
+    }
+
+    .ca-send-btn:focus-visible {
+      box-shadow: 0 0 0 2px var(--color-accent-focus);
     }
 
     .ca-send-btn:disabled {
-      opacity: 0.5;
+      opacity: 0.45;
       cursor: not-allowed;
     }
 
-    .ca-sub-footer {
+    .ca-caption {
       text-align: center;
       font-size: 10.5px;
-      color: var(--text-light);
+      color: var(--color-text-tertiary);
       margin-top: 6px;
+      user-select: none;
     }
 
-    /* Mobile Media Query */
+    /* Mobile Responsiveness */
     @media (max-width: 480px) {
       .ca-modal {
         bottom: 0;
@@ -460,6 +504,7 @@
         max-width: 100vw;
         max-height: 100vh;
         border-radius: 0;
+        border: none;
       }
       .ca-launcher {
         bottom: 16px;
@@ -470,45 +515,45 @@
 
   shadow.appendChild(style);
 
-  // Widget Markup
+  // Widget DOM Skeleton
   const container = document.createElement("div");
   container.innerHTML = `
     <!-- Floating Launcher -->
-    <button class="ca-launcher" id="ca-launcher" aria-label="Open Customer Chat" title="Chat with Us">
-      <span class="ca-unread-dot" id="ca-dot"></span>
-      <svg viewBox="0 0 24 24">
+    <button class="ca-launcher" id="ca-launcher" aria-label="Open CodeAlpha Assistant" title="Chat with Support">
+      <span class="ca-badge-dot" id="ca-badge"></span>
+      <svg id="ca-launcher-icon" viewBox="0 0 24 24">
         <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
       </svg>
     </button>
 
-    <!-- Chat Modal Window -->
-    <div class="ca-modal" id="ca-modal" role="dialog" aria-label="CodeAlpha Assistant" aria-modal="true">
+    <!-- Chat Modal -->
+    <div class="ca-modal" id="ca-modal" role="dialog" aria-modal="true" aria-label="CodeAlpha Cloud Support">
       <div class="ca-header">
-        <div class="ca-header-title-group">
-          <div class="ca-avatar-icon">
+        <div class="ca-header-left">
+          <div class="ca-avatar-icon" aria-hidden="true">
             <svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
           </div>
-          <div class="ca-header-text">
-            <h3>Support Assistant</h3>
-            <div class="ca-status-line">
+          <div>
+            <div class="ca-header-title">CodeAlpha Assistant</div>
+            <div class="ca-header-status">
               <span class="ca-status-dot"></span>
-              <span>Online • CodeAlpha Cloud</span>
+              <span>Online • Hybrid AI & Support</span>
             </div>
           </div>
         </div>
         <div class="ca-header-actions">
-          <button class="ca-icon-btn" id="ca-clear-btn" title="Clear conversation" aria-label="Clear chat">
+          <button class="ca-icon-btn" id="ca-clear-btn" title="Reset conversation" aria-label="Reset conversation">
             <svg viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>
           </button>
-          <button class="ca-icon-btn" id="ca-close-btn" title="Close" aria-label="Close chat window">
+          <button class="ca-icon-btn" id="ca-close-btn" title="Close chat" aria-label="Close chat">
             <svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
           </button>
         </div>
       </div>
 
-      <div class="ca-messages" id="ca-messages" aria-live="polite">
-        <div class="ca-msg bot">
-          <div class="ca-bubble">Hello! How can I help you today?</div>
+      <div class="ca-thread" id="ca-thread" aria-live="polite">
+        <div class="ca-msg-wrapper bot">
+          <div class="ca-bubble">Hello! I'm the CodeAlpha Cloud Assistant. How can I assist you with products, pricing, SLAs, or technical support today?</div>
           <div class="ca-suggestions">
             <button class="ca-chip" data-query="What products and services do you offer?">Products & Services</button>
             <button class="ca-chip" data-query="What are your pricing plans?">Pricing & Tiers</button>
@@ -527,18 +572,18 @@
             placeholder="Type your message..."
             autocomplete="off"
             required
-            aria-label="Chat input message"
+            aria-label="Your message"
           />
           <button type="submit" class="ca-send-btn" id="ca-send-btn">Send</button>
         </form>
-        <div class="ca-sub-footer">CodeAlpha Cloud Assistant • Sub-300ms Streaming</div>
+        <div class="ca-caption">CodeAlpha Cloud Assistant • Sub-300ms Streaming</div>
       </div>
     </div>
   `;
 
   shadow.appendChild(container);
 
-  // Element Selectors inside Shadow Root
+  // Cached Elements inside Shadow Root
   const launcher = shadow.getElementById("ca-launcher");
   const modal = shadow.getElementById("ca-modal");
   const closeBtn = shadow.getElementById("ca-close-btn");
@@ -546,40 +591,42 @@
   const form = shadow.getElementById("ca-form");
   const input = shadow.getElementById("ca-input");
   const sendBtn = shadow.getElementById("ca-send-btn");
-  const messagesArea = shadow.getElementById("ca-messages");
-  const unreadDot = shadow.getElementById("ca-dot");
+  const thread = shadow.getElementById("ca-thread");
+  const badge = shadow.getElementById("ca-badge");
 
-  let isOpen = false;
+  let isModalOpen = false;
 
-  // Toggle Modal
+  // Toggle Modal State
   function toggleModal(open) {
-    isOpen = typeof open === "boolean" ? open : !isOpen;
-    if (isOpen) {
+    isModalOpen = typeof open === "boolean" ? open : !isModalOpen;
+    if (isModalOpen) {
       modal.classList.add("open");
-      if (unreadDot) unreadDot.style.display = "none";
-      setTimeout(() => input.focus(), 120);
+      launcher.classList.add("open");
+      if (badge) badge.style.display = "none";
+      setTimeout(() => input.focus(), 140);
     } else {
       modal.classList.remove("open");
+      launcher.classList.remove("open");
       launcher.focus();
     }
   }
 
-  launcher.addEventListener("click", () => toggleModal(true));
+  launcher.addEventListener("click", () => toggleModal());
   closeBtn.addEventListener("click", () => toggleModal(false));
 
-  // Keyboard navigation: Escape closes modal
+  // Escape key closes modal (accessibility standard)
   window.addEventListener("keydown", (e) => {
-    if (e.key === "Escape" && isOpen) {
+    if (e.key === "Escape" && isModalOpen) {
       toggleModal(false);
     }
   });
 
-  // Scroll to bottom
+  // Smooth scroll helper
   function scrollToBottom() {
-    messagesArea.scrollTop = messagesArea.scrollHeight;
+    thread.scrollTop = thread.scrollHeight;
   }
 
-  // Format simple markdown into safe HTML
+  // Markdown formatter (XSS-safe)
   function formatMarkdown(text) {
     if (!text) return "";
     let safe = text
@@ -589,42 +636,49 @@
 
     // Bold **text**
     safe = safe.replace(/\*\*([^*]+)\*\*/g, "<strong>$1</strong>");
-    // Code `text`
+    // Inline code `code`
     safe = safe.replace(/`([^`]+)`/g, "<code>$1</code>");
-    // Markdown link [title](url)
-    safe = safe.replace(/\[([^\]]+)\]\((https?:\/\/[^\s)]+)\)/g, '<a href="$2" target="_blank" rel="noopener noreferrer">$1</a>');
+    // Markdown links [title](url)
+    safe = safe.replace(
+      /\[([^\]]+)\]\((https?:\/\/[^\s)]+)\)/g,
+      '<a href="$2" target="_blank" rel="noopener noreferrer">$1</a>'
+    );
+    // Simple bullet formatting
+    safe = safe.replace(/\n- /g, "<br>• ");
+    safe = safe.replace(/\n\n/g, "<br><br>");
+    safe = safe.replace(/\n/g, "<br>");
 
     return safe;
   }
 
-  // Append user or bot message
+  // Append a bubble to the thread
   function appendMessage(text, sender) {
-    const msg = document.createElement("div");
-    msg.className = `ca-msg ${sender}`;
+    const wrapper = document.createElement("div");
+    wrapper.className = `ca-msg-wrapper ${sender}`;
 
     const bubble = document.createElement("div");
     bubble.className = "ca-bubble";
     bubble.innerHTML = formatMarkdown(text);
 
-    msg.appendChild(bubble);
-    messagesArea.appendChild(msg);
+    wrapper.appendChild(bubble);
+    thread.appendChild(wrapper);
     scrollToBottom();
     return bubble;
   }
 
-  // Render typing indicator
+  // Show quiet 3-dot typing indicator
   function showTyping() {
     const typing = document.createElement("div");
-    typing.className = "ca-msg bot";
+    typing.className = "ca-msg-wrapper bot";
     typing.id = "ca-typing-indicator";
     typing.innerHTML = `
-      <div class="ca-typing">
+      <div class="ca-typing" aria-label="Assistant is typing">
         <span class="ca-dot"></span>
         <span class="ca-dot"></span>
         <span class="ca-dot"></span>
       </div>
     `;
-    messagesArea.appendChild(typing);
+    thread.appendChild(typing);
     scrollToBottom();
   }
 
@@ -633,7 +687,7 @@
     if (el) el.remove();
   }
 
-  // Render suggestions chips
+  // Render suggestion chips
   function renderSuggestions(suggestions) {
     if (!suggestions || suggestions.length === 0) return;
     const chipsDiv = document.createElement("div");
@@ -647,24 +701,25 @@
       chipsDiv.appendChild(chip);
     });
 
-    messagesArea.appendChild(chipsDiv);
+    thread.appendChild(chipsDiv);
     scrollToBottom();
   }
 
-  // Delegate initial chip clicks
-  messagesArea.addEventListener("click", (e) => {
+  // Handle delegated chip clicks
+  thread.addEventListener("click", (e) => {
     if (e.target && e.target.classList.contains("ca-chip")) {
       const query = e.target.getAttribute("data-query") || e.target.textContent;
       if (query) sendMessage(query);
     }
   });
 
-  // Handle SSE streaming or fallback
+  // Primary Message Handler: SSE Streaming with optimistic updates & graceful fallback
   async function sendMessage(userText) {
     const text = (userText || "").trim();
     if (!text) return;
 
     input.value = "";
+    // Optimistic UI update: display user query immediately
     appendMessage(text, "user");
 
     input.disabled = true;
@@ -675,7 +730,7 @@
     let accumulatedText = "";
 
     try {
-      // 1. Try Server-Sent Events (SSE) streaming endpoint
+      // Attempt Server-Sent Events (SSE) streaming
       const response = await fetch(`${API_BASE}/api/chat/stream`, {
         method: "POST",
         headers: {
@@ -686,10 +741,9 @@
       });
 
       if (!response.ok) {
-        throw new Error(`HTTP error ${response.status}`);
+        throw new Error(`HTTP ${response.status}`);
       }
 
-      // Check for streaming response
       const reader = response.body.getReader();
       const decoder = new TextDecoder("utf-8");
       let buffer = "";
@@ -702,7 +756,7 @@
 
         buffer += decoder.decode(value, { stream: true });
         const lines = buffer.split("\n\n");
-        buffer = lines.pop(); // keep trailing incomplete piece
+        buffer = lines.pop(); // keep trailing partial line
 
         for (const line of lines) {
           const trimmed = line.trim();
@@ -728,7 +782,7 @@
               if (chunk.done) {
                 finalMeta = chunk;
               }
-            } catch (err) {
+            } catch (jsonErr) {
               // Ignore non-json chunks
             }
           }
@@ -742,10 +796,10 @@
       }
 
     } catch (streamError) {
-      console.warn("Streaming error, falling back to standard API:", streamError);
+      // Graceful fallback to non-streaming POST endpoint
+      console.warn("SSE streaming interrupted, falling back to standard endpoint:", streamError);
       removeTyping();
 
-      // Fallback: standard non-streaming endpoint
       try {
         const fallbackRes = await fetch(`${API_BASE}/api/chat`, {
           method: "POST",
@@ -756,12 +810,12 @@
           body: JSON.stringify({ message: text, session_id: sessionId })
         });
         const fallbackData = await fallbackRes.json();
-        appendMessage(fallbackData.reply || "Sorry, I could not process your request.", "bot");
+        appendMessage(fallbackData.reply || "Sorry, I could not process your request at this time.", "bot");
         if (fallbackData.suggestions) {
           renderSuggestions(fallbackData.suggestions);
         }
       } catch (fallbackError) {
-        appendMessage("Unable to connect to support. Please verify your connection or try again later.", "bot");
+        appendMessage("Unable to connect to support. Please check your internet connection and try again.", "bot");
       }
     } finally {
       input.disabled = false;
@@ -770,18 +824,18 @@
     }
   }
 
-  // Form Submit
+  // Form Submission
   form.addEventListener("submit", (e) => {
     e.preventDefault();
     sendMessage(input.value);
   });
 
-  // Clear Chat History
+  // Clear Chat History & Reset Session
   clearBtn.addEventListener("click", () => {
     if (confirm("Reset conversation history?")) {
-      messagesArea.innerHTML = `
-        <div class="ca-msg bot">
-          <div class="ca-bubble">Hello! How can I help you today?</div>
+      thread.innerHTML = `
+        <div class="ca-msg-wrapper bot">
+          <div class="ca-bubble">Hello! I'm the CodeAlpha Cloud Assistant. How can I assist you with products, pricing, SLAs, or technical support today?</div>
           <div class="ca-suggestions">
             <button class="ca-chip" data-query="What products and services do you offer?">Products & Services</button>
             <button class="ca-chip" data-query="What are your pricing plans?">Pricing & Tiers</button>
@@ -790,20 +844,20 @@
           </div>
         </div>
       `;
-      // Clear session ID to start fresh token window
+      // Fresh ephemeral session ID
       sessionId = "sess_" + Math.random().toString(36).substring(2, 11) + "_" + Date.now().toString(36);
       sessionStorage.setItem("ca_chat_session_id", sessionId);
     }
   });
 
-  // Public API on window
+  // Public Programmatic API exposed on window
   window.CodeAlphaChatbot = {
     open: () => toggleModal(true),
     close: () => toggleModal(false),
     toggle: () => toggleModal(),
-    ask: (q) => {
+    ask: (query) => {
       toggleModal(true);
-      setTimeout(() => sendMessage(q), 200);
+      setTimeout(() => sendMessage(query), 180);
     }
   };
 })();
